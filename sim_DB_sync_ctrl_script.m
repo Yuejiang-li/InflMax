@@ -29,8 +29,8 @@ valid_exp_num_th = round(0.99 * repeat_num);
 valid_exp_index = [];
 invalid_exp_index =[];
 for i = 1:repeat_num
-    find_1000 = find(strategy_ratio(:, i)==N);
-    find_0 = find(strategy_ratio(:, i)==0);
+    find_1000 = find(strategy_ratio(:, i)==N, 1);
+    find_0 = find(strategy_ratio(:, i)==0, 1);
     if (isempty(find_1000))&&(isempty(find_0))
         valid_exp_index = [valid_exp_index, i];
     else

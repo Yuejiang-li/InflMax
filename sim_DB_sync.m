@@ -12,6 +12,9 @@ function [x, result] = sim_DB_sync(pm, net_mat, alph, T, p_ini)
 %   x: N*1 strategy vector w.r.t each user at time T.
 %   result: 1*T vector, each entry repr. the ratio who take strategy C.
 
+% Shuffle the random seed
+rng('shuffle')
+
 N = size(net_mat, 1);
 % Initialize the strategy vector of each user.
 x = zeros(N, 1);

@@ -15,6 +15,9 @@ function [opt_seed_index, opt_spread, spread_records] = SA_solver(Temp0, Temp_fi
 %   spread_records: the records of the spread at each end of temperature.
 % -------------------------------------------------------------------------
 
+% Shuffle the random seed
+rng('shuffle')
+
 % TODO: Initialize the seed user set with specific heurisitics.
 seed_user = randperm(simu_param.N, k);
 opt_spread = calculate_spread(simu_param, seed_user);

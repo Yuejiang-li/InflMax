@@ -30,12 +30,13 @@ for Temp = Temp0 : delta_T: Temp_final
     for i = 1:q
         % Perturb seed_user
         seed_user_new = perturb_seed_user(seed_user, simu_param.N, k);
-        new_spread = calculate_spread(simu_param, seed_user);
+        [new_spread, strategy_ratio] = calculate_spread(simu_param, seed_user);
         judge_result = judge_anneal(opt_spread - new_spread, Temp);
         if judge_result
             % Adopt new solution
             seed_user = seed_user_new;
             opt_spread = new_spread;
+            save('temp_strategy_ratio', 'strategy_ratio')
         end
         fprintf('q=%d\t, opt_spread=%.4f\n', i, opt_spread)
     end

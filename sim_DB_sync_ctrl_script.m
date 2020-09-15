@@ -1,4 +1,4 @@
-function [mean_strategy, mean_ratio] = sim_DB_sync_ctrl_script(pm, net_mat, alph, T, p_ini, repeat_num, is_zlt)
+function [mean_strategy, mean_ratio, strategy_ratio] = sim_DB_sync_ctrl_script(pm, net_mat, alph, T, p_ini, repeat_num, is_zlt)
 % Repeating the simulation for `sim_DB_sync`.
 % input:
 %   pm: wrapped payoff matrix struct, with ucc, ucd, udc, udd.

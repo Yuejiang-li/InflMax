@@ -12,7 +12,6 @@ function [mean_strategy, mean_ratio] = sim_DB_sync_ctrl_script(pm, net_mat, alph
 %   mean_strategy: N * repeat_num matrix, the strategy at T for each simulation run.
 %   mean_ratio: T * repeat_num, the mean ratio of strategy C at each time step.
     
-tic
 N = size(net_mat, 1);
 strategy_records = zeros(N, repeat_num);
 strategy_ratio = zeros(T, repeat_num);
@@ -45,5 +44,4 @@ end
 
 mean_strategy = mean(strategy_records(:, valid_exp_index), 2);
 mean_ratio = mean(strategy_ratio(:, valid_exp_index), 2);
-toc
 end

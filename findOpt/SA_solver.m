@@ -38,7 +38,8 @@ for Temp = Temp0 : delta_T: Temp_final
             opt_spread = new_spread;
             save('temp_strategy_ratio', 'strategy_ratio')
         end
-        fprintf('q=%d\t, opt_spread=%.4f\n', i, opt_spread)
+        fprintf('q=%d\t, opt_spread=%.4f, optimal seed users are:\n', i, opt_spread)
+        disp(seed_user)
     end
     toc
     spread_records(spread_count) = opt_spread;

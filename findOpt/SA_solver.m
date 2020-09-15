@@ -1,4 +1,4 @@
-function [opt_seed_index, opt_spread] = SA_solver(Temp0, Temp_final, k, delta_T, q, simu_param)
+function [opt_seed_index, opt_spread, spread_records] = SA_solver(Temp0, Temp_final, k, delta_T, q, simu_param)
 % A simulated annealing solver for cooperation maximization problem on
 % graph.
 % input:
@@ -12,6 +12,7 @@ function [opt_seed_index, opt_spread] = SA_solver(Temp0, Temp_final, k, delta_T,
 %   opt_seed_index: the seed user index list which maximize the
 %   cooperation.
 %   opt_spread: the maxima of spread of cooperation.
+%   spread_records: the records of the spread at each end of temperature.
 % -------------------------------------------------------------------------
 
 % TODO: Initialize the seed user set with specific heurisitics.

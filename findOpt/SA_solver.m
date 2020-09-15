@@ -26,6 +26,7 @@ f = figure();
 % Outer loop of temperature
 for Temp = Temp0 : delta_T: Temp_final
     fprintf("Current Temperature is %.5f\n", Temp)
+    tic
     for i = 1:q
         % Perturb seed_user
         seed_user_new = perturb_seed_user(seed_user, simu_param.N, k);
@@ -36,7 +37,9 @@ for Temp = Temp0 : delta_T: Temp_final
             seed_user = seed_user_new;
             opt_spread = new_spread;
         end
+        fprintf('q=%d\t, opt_spread=%.4f\n', i, opt_spread)
     end
+    toc
     spread_records(spread_count) = opt_spread;
     clf(f);
     plot(1:spread_count, spread_records(1:spread_count));

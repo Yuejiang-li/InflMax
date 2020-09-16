@@ -39,7 +39,7 @@ for Temp = Temp0 : delta_T: Temp_final
             % Adopt new solution
             seed_user = seed_user_new;
             opt_spread = new_spread;
-            save('temp_strategy_ratio', 'strategy_ratio')
+            save('temp_strategy_ratio', 'strategy_ratio', 'seed_user')
         end
         fprintf('q=%d\t, opt_spread=%.4f, optimal seed users are:\n', i, opt_spread)
         disp(seed_user)

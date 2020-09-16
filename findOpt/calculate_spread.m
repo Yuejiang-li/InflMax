@@ -10,4 +10,3 @@ function [spread, strategy_ratio] = calculate_spread(simu_param, seed_users)
 [~, mean_ratio, strategy_ratio] = sim_DB_sync_ctrl_script(simu_param.pm, simu_param.net_mat, simu_param.alph, simu_param.T, seed_users, simu_param.repeat_num, simu_param.is_zlt);
 spread = mean(mean_ratio(end-50:end));
 end
-

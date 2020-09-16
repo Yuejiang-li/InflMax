@@ -1,4 +1,4 @@
-function [x, result] = sim_DB_sync_with_zlt(pm, net_mat, alph, T, p_ini)
+function [x, result, X] = sim_DB_sync_with_zlt(pm, net_mat, alph, T, p_ini)
 % DB update process in sychronization way. The chosen intial seed user will
 % act as zealot, they do not update their strategy. Other users still use
 % DB update rule to update strategy.
@@ -11,7 +11,8 @@ function [x, result] = sim_DB_sync_with_zlt(pm, net_mat, alph, T, p_ini)
 %   index who adopt strategy C at the initial state. They are also the
 %   zealot user.
 % output:
-%   x: N*1 strategy vector w.r.t each user at time T.
+%   x: N * 1 strategy vector w.r.t each user at time T.
+%   X: N*T strategy vector w.r.t each user at each time t.
 %   result: 1*T vector, each entry repr. the ratio who take strategy C.
 
 % Shuffle the random seed
@@ -20,6 +21,7 @@ rng('shuffle')
 N = size(net_mat, 1);
 % Initialize the strategy vector of each user.
 x = zeros(N, 1);
+X = zeros(N, T);
 x(p_ini) = 1;
 
 one_vec = ones(N, 1);
@@ -56,6 +58,7 @@ for i = 1:T
     % Update x
     x = x_new;
     result(i) = sum(x);
+    X(:, i) = x;
 end
 
 end

@@ -1,4 +1,4 @@
-function [mean_strategy, mean_ratio, strategy_ratio] = sim_DB_sync_ctrl_script(pm, net_mat, alph, T, p_ini, repeat_num, is_zlt)
+function [mean_strategy, mean_ratio, strategy_ratio, strategy_each_iter] = sim_DB_sync_ctrl_script(pm, net_mat, alph, T, p_ini, repeat_num, is_zlt)
 % Repeating the simulation for `sim_DB_sync`.
 % input:
 %   pm: wrapped payoff matrix struct, with ucc, ucd, udc, udd.
@@ -15,13 +15,17 @@ function [mean_strategy, mean_ratio, strategy_ratio] = sim_DB_sync_ctrl_script(p
 N = size(net_mat, 1);
 strategy_records = zeros(N, repeat_num);
 strategy_ratio = zeros(T, repeat_num);
+strategy_each_iter = zeros(N, T);
 parfor i = 1:repeat_num
     if is_zlt
-        [strategy_records(:, i), strategy_ratio(:, i)] = sim_DB_sync_with_zlt(pm, net_mat, alph, T, p_ini);
+        [strategy_records(:, i), strategy_ratio(:, i), X] = sim_DB_sync_with_zlt(pm, net_mat, alph, T, p_ini);
     else
         [strategy_records(:, i), strategy_ratio(:, i)] = sim_DB_sync(pm, net_mat, alph, T, p_ini);
     end
+    strategy_each_iter = strategy_each_iter + X;
 end
+
+strategy_each_iter = strategy_each_iter / repeat_num;
 
 [valid_exp_index, invalid_exp_index] = find_valid_exp(strategy_ratio, 2, round(repeat_num * 0.7), false, N, repeat_num);
 % % Try exclude extreme simulation run (converge to 0 and 1).

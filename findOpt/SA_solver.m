@@ -33,7 +33,7 @@ for Temp = Temp0 : delta_T: Temp_final
     for i = 1:q
         % Perturb seed_user
         seed_user_new = perturb_seed_user(seed_user, simu_param.N, k);
-        [new_spread, strategy_ratio] = calculate_spread(simu_param, seed_user);
+        [new_spread, strategy_ratio] = calculate_spread(simu_param, seed_user_new);
         judge_result = judge_anneal(opt_spread - new_spread, Temp);
         if judge_result
             % Adopt new solution
@@ -48,7 +48,7 @@ for Temp = Temp0 : delta_T: Temp_final
     spread_records(spread_count) = opt_spread;
     clf(f);
     plot(1:spread_count, spread_records(1:spread_count));
-    pause(0.01);
+    pause(0.1);
     spread_count = spread_count + 1;
 end
 opt_seed_index = seed_user;

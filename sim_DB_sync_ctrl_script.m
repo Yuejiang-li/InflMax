@@ -23,24 +23,25 @@ parfor i = 1:repeat_num
     end
 end
 
-% Try exclude extreme simulation run (converge to 0 and 1).
-valid_exp_num_th = round(0.99 * repeat_num);
-valid_exp_index = [];
-invalid_exp_index =[];
-for i = 1:repeat_num
-    find_1000 = find(strategy_ratio(:, i)==N, 1);
-    find_0 = find(strategy_ratio(:, i)==0, 1);
-    if (isempty(find_1000))&&(isempty(find_0))
-        valid_exp_index = [valid_exp_index, i];
-    else
-        invalid_exp_index = [invalid_exp_index, i];
-    end
-end
-
-if length(valid_exp_index) <= valid_exp_num_th
-    gap = valid_exp_num_th - length(valid_exp_index);
-    valid_exp_index = [valid_exp_index, invalid_exp_index(1:gap)];
-end
+[valid_exp_index, invalid_exp_index] = find_valid_exp(strategy_ratio, 2, round(repeat_num * 0.7), false, N, repeat_num);
+% % Try exclude extreme simulation run (converge to 0 and 1).
+% valid_exp_num_th = round(0.99 * repeat_num);
+% valid_exp_index = [];
+% invalid_exp_index =[];
+% for i = 1:repeat_num
+%     find_1000 = find(strategy_ratio(:, i)==N, 1);
+%     find_0 = find(strategy_ratio(:, i)==0, 1);
+%     if (isempty(find_1000))&&(isempty(find_0))
+%         valid_exp_index = [valid_exp_index, i];
+%     else
+%         invalid_exp_index = [invalid_exp_index, i];
+%     end
+% end
+% 
+% if length(valid_exp_index) <= valid_exp_num_th
+%     gap = valid_exp_num_th - length(valid_exp_index);
+%     valid_exp_index = [valid_exp_index, invalid_exp_index(1:gap)];
+% end
 
 mean_strategy = mean(strategy_records(:, valid_exp_index), 2);
 mean_ratio = mean(strategy_ratio(:, valid_exp_index), 2);

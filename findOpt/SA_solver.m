@@ -1,4 +1,4 @@
-function [opt_seed_index, opt_spread, spread_records] = SA_solver(Temp0, Temp_final, k, delta_T, q, simu_param)
+function [opt_seed_index, opt_spread, spread_records] = SA_solver(Temp0, Temp_final, k, delta_T, q, simu_param, require_fig)
 % A simulated annealing solver for cooperation maximization problem on
 % graph.
 % input:
@@ -8,6 +8,8 @@ function [opt_seed_index, opt_spread, spread_records] = SA_solver(Temp0, Temp_fi
 %   delta_T: the decrease of temperature in each iteration.
 %   q: the inner loop number.
 %   simu_param: wrapped parameters for simulation.
+%   require_fig: a bool variable, whether showing the optimality solving
+%   pricess.
 % ouput:
 %   opt_seed_index: the seed user index list which maximize the
 %   cooperation.
@@ -24,7 +26,9 @@ opt_spread = calculate_spread(simu_param, seed_user);
 temperature_count = length(Temp0 : delta_T: Temp_final);
 spread_records = zeros(1, temperature_count);
 spread_count = 1;
-f = figure();
+if require_fig
+    f = figure();
+end
 
 % Outer loop of temperature
 for Temp = Temp0 : delta_T: Temp_final
@@ -46,9 +50,11 @@ for Temp = Temp0 : delta_T: Temp_final
     end
     toc
     spread_records(spread_count) = opt_spread;
-    clf(f);
-    plot(1:spread_count, spread_records(1:spread_count));
-    pause(0.1);
+    if require_fig
+        clf(f);
+        plot(1:spread_count, spread_records(1:spread_count));
+        pause(0.1);
+    end
     spread_count = spread_count + 1;
 end
 opt_seed_index = seed_user;

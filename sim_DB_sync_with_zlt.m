@@ -25,19 +25,14 @@ X = zeros(N, T);
 x(p_ini) = 1;
 
 one_vec = ones(N, 1);
-% Calculate the fitness of each user.
-temp_vec_1 = zeros(N, 1);
-temp_vec_2 = zeros(N, 1);
 
 result = zeros(1, T);
 
 for i = 1:T
-    is_c_vec = x == 1;
-    temp_vec_1(is_c_vec) = alph * (pm.ucc - pm.ucd);
-    temp_vec_1(~is_c_vec) = alph * (pm.udc - pm.udd);
-    temp_vec_2(is_c_vec) = alph * pm.ucd;
-    temp_vec_2(~is_c_vec) = alph * pm.udd;
-    fit_vec = one_vec * (1 - alph) + (net_mat * x) .* temp_vec_1 + (net_mat * one_vec) .* temp_vec_2;
+    % If the focal user use strategy-c, then the fitness is
+    fit_c = (1 - alph) + alph * net_mat * (pm.ucc * x + pm.ucd * (1 - x));
+    fit_d = (1 - alph) + alph * net_mat * (pm.udc * x + pm.udd * (1 - x));
+    fit_vec = fit_c .* x + fit_d .* (1 - x);
 
     % Calculate the sum fitness of C-neighbors and D-neighbors.
     sum_fit_c = net_mat * (x .* fit_vec);
@@ -48,6 +43,7 @@ for i = 1:T
     x_new = x;
     % Decide whether each C-user change to D
     change_th = (x .* sum_fit_d) ./ sum_fit;
+    % Zealots should never change their strategy to D, thus th = 0 forever.
     change_th(p_ini) = 0;
     rand_vec = rand(N, 1);
     x_new(rand_vec <= change_th) = 0;

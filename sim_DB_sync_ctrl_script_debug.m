@@ -1,4 +1,4 @@
-function [strategy_ratio, strategy_each_iter, C2D_times, D2C_times] = sim_DB_sync_ctrl_script_debug(pm, net_mat, alph, T, p_ini, repeat_num, is_zlt)
+function [strategy_ratio, mean_ratio, strategy_each_iter, C2D_times, D2C_times] = sim_DB_sync_ctrl_script_debug(pm, net_mat, alph, T, p_ini, repeat_num, is_zlt)
 % Repeating the simulation for `sim_DB_sync`.
 % input:
 %   pm: wrapped payoff matrix struct, with ucc, ucd, udc, udd.
@@ -30,5 +30,5 @@ parfor i = 1:repeat_num
 end
 
 % mean_strategy = mean(strategy_records(:, valid_exp_index), 2);
-% mean_ratio = mean(strategy_ratio(:, valid_exp_index), 2);
+mean_ratio = mean(strategy_ratio, 2);
 end

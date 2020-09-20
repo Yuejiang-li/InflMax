@@ -24,8 +24,6 @@ x = zeros(N, 1);
 X = zeros(N, T);
 x(p_ini) = 1;
 
-one_vec = ones(N, 1);
-
 result = zeros(1, T);
 
 for i = 1:T
@@ -36,7 +34,7 @@ for i = 1:T
 
     % Calculate the sum fitness of C-neighbors and D-neighbors.
     sum_fit_c = net_mat * (x .* fit_vec);
-    sum_fit_d = net_mat * ((one_vec - x) .* fit_vec);
+    sum_fit_d = net_mat * ((1 - x) .* fit_vec);
     % Neighbors total fitness.
     sum_fit = sum_fit_c + sum_fit_d;
 
@@ -48,7 +46,7 @@ for i = 1:T
     rand_vec = rand(N, 1);
     x_new(rand_vec <= change_th) = 0;
     % Decide whether each D-user change to C
-    change_th = ((one_vec - x) .* sum_fit_c) ./ sum_fit;
+    change_th = ((1 - x) .* sum_fit_c) ./ sum_fit;
     rand_vec = rand(N, 1);
     x_new(rand_vec <= change_th) = 1;
     % Update x

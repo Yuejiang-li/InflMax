@@ -1,4 +1,4 @@
-function [x, total_result] = temporal_solver(A, alph, p_ini, T, pm, is_zlt)
+function [x, total_result] = temporal_solver(A, alph, p_ini, T, pm, is_zlt, varargin)
 % This function theoretically calculate the state vector's dynamics.
 % input:
 %   A: N*N adjacency matrix of the graph.
@@ -8,11 +8,20 @@ function [x, total_result] = temporal_solver(A, alph, p_ini, T, pm, is_zlt)
 %   T: the iterations.
 %   PM: wrapped payoff matrix.
 %   is_zlt: whether the initial users are zealot.
+%   if is_zlt is ture, then varargin should contain one element, that is,
+%   zealots: the index of zealots. Note that p_ini must contain zealots.
 % output:
 %   x: N*1 vector. The state at iteration T.
 %   total_result: N * T vector. Each user's percentage with
 %   action C at each time step.
 % -------------------------------------------------------------------------
+
+if is_zlt
+    zealots = varargin{1, 1};
+end
+if sum(ismember(zealots, p_ini)) ~= length(zealots)
+    error("p_ini must contains zealots.")
+end
 
 N = size(A, 1);
 one_vec = ones(N, 1);
@@ -28,7 +37,7 @@ for t = 1:T
     Sd = A * (Fd .* (one_vec - x));
     x = Sc ./ (Sc + Sd);
     if is_zlt
-        x(p_ini) = 1;
+        x(zealots) = 1;
     end
     % fprintf("Round %d:\t sum of x: %.4f\n", t, sum(x));  % Logging INFO
     total_result(:, t) = x;

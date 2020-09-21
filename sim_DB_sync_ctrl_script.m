@@ -19,13 +19,15 @@ strategy_each_iter = zeros(N, T);
 parfor i = 1:repeat_num
     if is_zlt
         [strategy_records(:, i), strategy_ratio(:, i), X] = sim_DB_sync_with_zlt(pm, net_mat, alph, T, p_ini);
+        strategy_each_iter = strategy_each_iter + X;
     else
         [strategy_records(:, i), strategy_ratio(:, i)] = sim_DB_sync(pm, net_mat, alph, T, p_ini);
     end
-    strategy_each_iter = strategy_each_iter + X;
 end
 
-strategy_each_iter = strategy_each_iter / repeat_num;
+if is_zlt
+    strategy_each_iter = strategy_each_iter / repeat_num;
+end
 
 [valid_exp_index, invalid_exp_index] = find_valid_exp(strategy_ratio, 2, round(repeat_num * 0.7), false, N, repeat_num);
 % % Try exclude extreme simulation run (converge to 0 and 1).

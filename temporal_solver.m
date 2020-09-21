@@ -18,9 +18,9 @@ function [x, total_result] = temporal_solver(A, alph, p_ini, T, pm, is_zlt, vara
 
 if is_zlt
     zealots = varargin{1, 1};
-end
-if sum(ismember(zealots, p_ini)) ~= length(zealots)
-    error("p_ini must contains zealots.")
+    if sum(ismember(zealots, p_ini)) ~= length(zealots)
+        error("p_ini must contains zealots.")
+    end
 end
 
 N = size(A, 1);
